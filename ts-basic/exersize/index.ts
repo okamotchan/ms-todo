@@ -29,3 +29,30 @@ const myStack = new Stack<number>();
 myStack.push(1);
 myStack.push(2);
 console.log('Number on top of the stack:', myStack.pop());
+
+// spread, https://typescript-jp.gitbook.io/deep-dive/future-javascript/spread-operator#yao-yue
+//destructuring, https://typescript-jp.gitbook.io/deep-dive/future-javascript/destructuring#yao-yue
+const obj1 = {
+  first: 'who',
+  second: 'what',
+}
+
+const obj2 = {
+  center: 'because',
+  catcher: 'today'
+}
+
+const megaObj = { ...obj1, ...obj2}
+
+const { first, second, catcher } = megaObj
+console.log('first', first)
+console.log('second', second)
+console.log('catcher', catcher)
+
+
+// 8
+// mycar: {"wheels":5,"color":"red","make":"toyota","model":"prius"}
+// Number on top of the stack: 2
+// first who
+// second what
+// catcher today
