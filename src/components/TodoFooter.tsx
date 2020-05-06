@@ -1,25 +1,25 @@
 import React from 'react';
-import { Todos } from '../TodoApp.types';
+import { Store } from '../store';
+import { DefaultButton, Stack, Text } from 'office-ui-fabric-react';
+
 
 interface TodoFooterProps {
   clear: () => void;
-  todos: Todos;
+  todos: Store['todos'];
 }
 
 export const TodoFooter = (props: TodoFooterProps) => {
   const itemCount = Object.keys(props.todos).filter(id => !props.todos[id].completed).length;
-  const _onClick = () => {
-    props.clear();
-  };
+  // const _onClick = () => {
+  //   props.clear();
+  // };
 
   return (
-    <footer>
-      <span>
+    <Stack horizontal horizontalAlign="space-between">
+      <Text>
         {itemCount} item{itemCount === 1 ? '' : 's'} left
-      </span>
-      <button onClick={_onClick} className="submit">
-        Clear completed
-      </button>
-    </footer>
+      </Text>
+      <DefaultButton onClick={() => props.clear()}>Clear Completed</DefaultButton>
+    </Stack>
   );
 };

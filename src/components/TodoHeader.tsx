@@ -1,10 +1,11 @@
 import React from 'react';
-import { FilterTypes } from '../TodoApp.types';
+import { Stack, Text, Pivot, PivotItem, TextField, PrimaryButton } from 'office-ui-fabric-react';
+import { FilterTypes } from '../store';
 
 interface TodoHeaderProps {
   addTodo: (label: string) => void;
   setFilter: (filter: FilterTypes) => void;
-  filter: FilterTypes;
+  filter: string;
 }
 
 interface TodoHeaderState {
@@ -12,46 +13,44 @@ interface TodoHeaderState {
 }
 
 export class TodoHeader extends React.Component<TodoHeaderProps, TodoHeaderState> {
-  constructor(props) {
+  constructor(props: TodoHeaderProps) {
     super(props);
-    this.state = { labelInput: ''};
+    this.state = { labelInput: undefined }
   }
+
   render() {
-    const { filter, setFilter } = this.props;
     return (
-      <header>
-        <h1>todos</h1>
-        <div className="addTodo">
-          <input value={this.state.labelInput} onChange={this._onChange} className="textfield" placeholder="add todo" />
-          <button onClick={this._onAdd} className="submit">
-            Add
-          </button>
-        </div>
-        <nav className="filter">
-          <button onClick={this._onFilter} className={filter === 'all' ? 'selected' : ''}>
-            all
-          </button>
-          <button onClick={this._onFilter} className={filter === 'active' ? 'selected' : ''}>
-            active
-          </button>
-          <button onClick={this._onFilter} className={filter === 'completed' ? 'selected' : ''}>
-            completed
-          </button>
-        </nav>
-      </header>
+      <Stack>
+        <Stack horizontal horizontalAlign="center">
+          <Text variant="xxLarge">ToDoリスト</Text>
+        </Stack>
+
+        <Stack horizontal>
+          <Stack.Item grow>
+            <TextField placeholder="何をしますか?" value={this.state.labelInput} onChange={this.onChange} />
+          </Stack.Item>
+          <PrimaryButton onClick={this.onAdd}>Add</PrimaryButton>
+        </Stack>
+
+        <Pivot onLinkClick={this.onFilter}>
+          <PivotItem headerText="all" />
+          <PivotItem headerText="active" />
+          <PivotItem headerText="completed" />
+        </Pivot>
+      </Stack>
     );
   }
 
-  _onFilter = evt => {
-    this.props.setFilter(evt.target.innerText);
-  };
-
-  _onChange = evt => {
-    this.setState({ labelInput: evt.target.value });
-  };
-
-  _onAdd = () => {
+  private onAdd = () => {
     this.props.addTodo(this.state.labelInput);
-    this.setState({ labelInput: '' });
+    this.setState({ labelInput: undefined });
+  };
+
+  private onChange = (evt: React.FormEvent<HTMLInputElement>, newValue: string) => {
+    this.setState({ labelInput: newValue });
+  };
+
+  private onFilter = (item: PivotItem) => {
+    this.props.setFilter(item.props.headerText as FilterTypes);
   };
 }

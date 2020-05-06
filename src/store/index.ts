@@ -5,6 +5,9 @@ export interface TodoItem {
   completed: boolean;
 }
 
-export interface Todos {
-  [id: string]: TodoItem;
+export interface Store {
+  todos: {
+    [id: string]: TodoItem;
+  };
+  filter: FilterTypes;
 }
