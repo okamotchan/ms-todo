@@ -49,6 +49,17 @@ console.log('first', first)
 console.log('second', second)
 console.log('catcher', catcher)
 
+// async / await https://jsprimer.net/basic/async/#async-handling
+function makePromise(): Promise<number> {
+  return Promise.resolve(5)
+}
+
+async function run() {
+  const result = await makePromise();
+  console.log('makePromise returned:', result);
+}
+
+run();
 
 // 8
 // mycar: {"wheels":5,"color":"red","make":"toyota","model":"prius"}
@@ -56,3 +67,4 @@ console.log('catcher', catcher)
 // first who
 // second what
 // catcher today
+// makePromise returned: 5
